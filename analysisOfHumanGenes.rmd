@@ -1,0 +1,54 @@
+---
+title: "analysisOfHumanGenes"
+author: "Alex Janse"
+date: "29-10-2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+```
+
+## Introduction
+This document contains graphs and observations from the hsapiens_gene_ensembl dataset.
+
+## Retrieval data connection
+The following code has been used to retrieve the hsapiens_gene_ensembl connection
+```{r include = TRUE}
+library(biomaRt)
+mart <- useMart(biomart="ENSEMBL_MART_ENSEMBL", 
+                dataset="hsapiens_gene_ensembl")
+```
+
+## Transcript length
+The first observation was made by looking at the length of transcripts. A transcript in this context is mRNA including the UTR's.
+```{r include = TRUE}
+for (chr in unlist(list(1:22,"X","Y"))){
+  done = FALSE
+  # Error handeling because sometimes the mart server gives an random error and when the same code is runned again the error disappears
+  while(!done){
+    # Gather data
+    tryCatch({
+      df <- data.frame(select(mart, 
+                              columns = c("transcript_length"), 
+                              keys    = chr, 
+                              keytype = "chromosome_name"))
+    }, error = function(e){
+      print(paste("There was an error at the server while gathering chr",chr," data. I will retry connecting
+            again."))
+    }, finally = {
+      done <- TRUE
+    }) 
+  }
+  # Make plot
+  ## The bin width is decided with the Freedman-Diaconis rule
+  print(ggplot(data = df, aes(x = transcript_length)) +
+          geom_histogram(binwidth = 2 * 
+                           IQR(df$transcript_length) / 
+                           nrow(df)^(1/3)) +
+    labs(title = paste("Transcript length of chr", 
+                       chr, " genes", sep = "")))
+  
+}
+```
