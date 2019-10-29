@@ -1,0 +1,5 @@
+##sequence-region CM000684.2 1 50818468
+##species https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=9606
+CM000684.2	Genbank	region	1	50818468	.	+	.	ID=CM000684.2:1..50818468;Dbxref=taxon:9606;Name=22;chromosome=22;gbkey=Src;genome=chromosome;mol_type=genomic DNA
+CM000684.2	Genbank	centromere	12954789	15054318	.	+	.	ID=id-CM000684.2:12954789..15054318;Note=Linear centromere model derived predominantly from reads generated in PMID: 17803354. This region does not represent an actual centromere sequence%2C as long-range ordering of repeats and unmapped WGS contigs is not provided by the model. For details of model production%2C see http://arxiv.org/abs/1307.0035.;gbkey=centromere
+
