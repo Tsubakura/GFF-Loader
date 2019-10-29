@@ -1,5 +1,9 @@
 library(shiny)
 library(hgu133plus2.db)
+if (!requireNamespace("BiocManager", quietly = TRUE))
+  install.packages("BiocManager")
+
+BiocManager::install("biomaRt")
 library(biomaRt)
 mart <- useMart(biomart="ENSEMBL_MART_ENSEMBL", 
                 dataset="hsapiens_gene_ensembl")
